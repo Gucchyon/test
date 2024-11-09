@@ -4,8 +4,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // リポジトリ名を設定（例：リポジトリ名が"my-next-app"の場合）
+  // あなたの実際のリポジトリ名を設定してください
   basePath: process.env.NODE_ENV === 'production' ? '/test' : '',
+  // GitHub Pages用の設定を追加
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/test' : '',
+  trailingSlash: true,
 }
 
 module.exports = nextConfig
