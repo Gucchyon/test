@@ -35,29 +35,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: List files before build
-        run: ls -la
-      
       - name: Build with Next.js
-        run: |
-          echo "Starting build..."
-          npm run build
-          echo "Build completed"
-          echo "Checking build output:"
-          ls -la
-          echo "Checking for out directory:"
-          ls -la out || true
-        env:
-          CI: true
-          
-      - name: Create out directory if it doesn't exist
-        run: mkdir -p out
+        run: npm run build
       
-      - name: Copy build output if needed
+      - name: Verify build output
         run: |
-          if [ ! -d "out" ] && [ -d ".next/static" ]; then
-            mkdir -p out/_next/static
-            cp -r .next/static/* out/_next/static/
+          echo "Checking build output contents:"
+          ls -la out/
+          echo "Verifying index.html exists:"
+          if [ -f "out/index.html" ]; then
+            echo "index.html exists"
+          else
+            echo "index.html is missing!"
+            exit 1
           fi
       
       - name: Upload artifact
