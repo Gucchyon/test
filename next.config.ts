@@ -6,9 +6,10 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   basePath: process.env.NODE_ENV === 'production' ? '/test' : '',
-  trailingSlash: true,
-  // GitHub Pages用の設定を追加
   assetPrefix: process.env.NODE_ENV === 'production' ? '/test' : '',
+  trailingSlash: true,
+  // distDir を明示的に指定
+  distDir: process.env.NODE_ENV === 'production' ? 'out' : '.next',
 }
 
 export default nextConfig

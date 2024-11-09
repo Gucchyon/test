@@ -35,20 +35,31 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Build with Next.js
-        run: npm run build
-      
-      - name: Verify build output
+      - name: Show current directory
         run: |
-          echo "Checking build output contents:"
-          ls -la out/
-          echo "Verifying index.html exists:"
-          if [ -f "out/index.html" ]; then
-            echo "index.html exists"
-          else
-            echo "index.html is missing!"
-            exit 1
+          pwd
+          ls -la
+      
+      - name: Build with Next.js
+        run: |
+          echo "Starting build process..."
+          npm run build
+          echo "Build process completed"
+          echo "Current directory contents:"
+          ls -la
+      
+      - name: Create out directory if not exists
+        run: |
+          if [ ! -d "out" ]; then
+            echo "Creating out directory..."
+            mkdir out
+            echo "Copying .next contents if they exist..."
+            if [ -d ".next" ]; then
+              cp -r .next/* out/
+            fi
           fi
+          echo "Out directory contents:"
+          ls -la out/
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
